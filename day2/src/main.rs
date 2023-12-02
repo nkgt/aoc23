@@ -9,31 +9,22 @@ fn main() -> Result<(), Box<dyn Error>> {
 
     for line in input.lines() {
         let mut valid = true;
-
-        let Some((entry, rolls)) = line.split_once(":") else {
-            panic!("Wrong input");
-        };
+        let (entry, rolls) = line.split_once(":").unwrap();
 
         for pair in rolls.split([',', ';']) {
-            let Some((n, color)) = pair.trim_start().split_once(" ") else {
-                panic!("Wrong input");
-            }; 
-
+            let (n, color) = pair.trim_start().split_once(" ").unwrap();
             let count = n.parse::<u32>().unwrap();
+
             match color {
                 "red"   => if count > red_limit   { valid = false; break; },
                 "green" => if count > green_limit { valid = false; break; },
                 "blue"  => if count > blue_limit  { valid = false; break; },
                 _ => panic!("Wrong input"),
             }
-
         }
 
         if valid {
-            let Some((_, id)) = entry.split_once(" ") else {
-                panic!("Wrong input")
-            };
-
+            let (_, id) = entry.split_once(" ").unwrap(); 
             total += id.parse::<u32>().unwrap();
         }
     }
